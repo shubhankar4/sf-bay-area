@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+    - name: core
+      database: main-audio-384108
+      schema: dbt_shubhankar4
+
+      tables:
+        - name: stg_tripdata
+          description: Refer to the documentation of models/staging/stg_tripdata
+
+models:  
+  - name: fact_trips
+    description: >
+      This is an aggregated table for bike-sharing tripdata within San Francisco and contains indicators such
+      as the number of trips and the average trip duration in minutes.
+    columns:
+      - name: num_trips
+        description: Number of trips per start station, start date, member type and rideable type
+        tests:
+          - not_null:
+              severity: error
+      - name: avg_trip_duration_mins
+        description: Average trip duration (minutes)
+        tests:
+          - not_null:
+              severity: error

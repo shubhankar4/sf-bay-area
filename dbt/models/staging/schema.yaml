@@ -1,0 +1,82 @@
+version: 2
+
+sources:
+    - name: staging
+      database: main-audio-384108
+      schema: sf_bay_area_tripdata
+
+      tables:
+        - name: trips_data_partitioned
+
+models:
+  - name: stg_tripdata
+    description: Trip data for Bay Wheels bicycle sharing service. This data is provided by Lyft Bikes and Scooters, LLC.
+    columns:
+      - name: trip_id
+        description: Surrogate key, generated from 'ride_id' and 'started_at'
+        tests:
+          - unique:
+              severity: error
+          - not_null:
+              severity: error
+      - name: ride_id
+        description: Source table's primary key
+        tests:
+          - unique:
+              severity: warn
+          - not_null:
+              severity: warn
+      - name: rideable_type
+        description: The bike type used for the ride
+        tests:
+          - accepted_values:
+              values: "{{ var('rideable_type') }}"
+              severity: warn
+          - not_null:
+              severity: warn
+      - name: member_casual
+        description: Rider type ['Member', 'Casual']
+        tests:
+          - accepted_values:
+              values: "{{ var('member_casual') }}"
+              severity: warn
+          - not_null:
+              severity: warn
+      
+      - name: started_at
+        description: The date and time the ride started
+        tests:
+          - not_null:
+              severity: error
+      - name: ended_at
+        description: The date and time the ride ended
+        tests:
+          - not_null:
+              severity: error
+      - name: trip_duration_mins
+        description: Trip duration(minutes)
+
+      - name: start_station_id
+        description: Station ID where the ride started
+      - name: start_station_name
+        description: Station name where the ride started
+      - name: end_station_id
+        description: Station ID where the ride started
+      - name: end_station_name
+        description: Station name where the ride ended
+
+      - name: start_lat
+        description: Latitude where the ride started
+        tests:
+          - not_null:
+              severity: warn
+      - name: start_lng
+        description: Longitude where the ride started
+        tests:
+          - not_null:
+              severity: warn
+      - name: end_lat
+        description: Latitude where the ride ended
+      - name: end_lng
+        description: Longitude where the ride ended
+      

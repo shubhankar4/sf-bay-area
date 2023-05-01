@@ -1,0 +1,7 @@
+.venv/
+.vscode/
+data_zipped/
+data/
+flows/__pycache__/
+.prefectignore
+*-deployment.yaml
