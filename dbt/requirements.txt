@@ -1,2 +1,1 @@
 dbt-bigquery==1.4.3
-prefect_dbt==0.3.1
