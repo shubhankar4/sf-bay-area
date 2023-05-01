@@ -21,10 +21,10 @@ The dataset can be found [here](https://s3.amazonaws.com/baywheels-data/index.ht
 - Install [terraform](https://developer.hashicorp.com/terraform/downloads)
 - Switch to terraform directory using `cd terraform/`
 - Run `terraform init` to initialize the directory and download required provider plugins.
-- Run `terraform validate` to validate the configuration.
 - Inside `variables.tf` provide default value for "project", which is the GCP project ID.
 - Inside `main.tf` provide the service account file path.
 `credentials = file("../.google/<service-account-key.json>")`
+- Run `terraform validate` to validate the configuration.
 - Run `terraform plan` to create an execution plan for creating the resources.
 - Run `terraform apply` to apply the changes proposed by `terraform plan`
 - `terraform destroy` to tear down the resources after we're done.
@@ -35,21 +35,21 @@ The dataset can be found [here](https://s3.amazonaws.com/baywheels-data/index.ht
 - Run `source .venv/bin/activate` to activate the virtual environment.
 - Run `pip install -r requirements.txt` to install the required packages.
 - Start the prefect server using `prefect server start`
-- Open up another terminal, switch to the 'prefect/' directory and activate the virutal env
+- Open up another terminal, switch to the `prefect/` directory and activate the virutal env
 - Run `prefect config set PREFECT_API_URL=http://127.0.0.1:4200/api` to use a local prefect server instance
 - Run `python flows/gcp_blocks.py` to create GCP blocks
 
 ##### Creating deployments
-`prefect deployment build -n sf-bay-area flows/web_to_gcs.py:web_to_gcs_flow -a`
-`prefect deployment build -n sf-bay-area flows/gcs_to_bq.py:gcs_to_bq_flow -a`
-`prefect deployment build -n sf-bay-area flows/bq_table.py:bq_table -a`
+- `prefect deployment build -n sf-bay-area flows/web_to_gcs.py:web_to_gcs_flow -a`
+- `prefect deployment build -n sf-bay-area flows/gcs_to_bq.py:gcs_to_bq_flow -a`
+- `prefect deployment build -n sf-bay-area flows/bq_table.py:bq_table -a`
 
 - Run `prefect agent start -q 'default'` to start a prefect agent, which is needed to run the deployments.
 
 - To run the deployments, open up yet another terminal, switch to 'prefect/' directory, activate the virtual env.
-`prefect deployment run web-to-gcs-flow/sf-bay-area`
-`prefect deployment run gcs-to-bq-flow/sf-bay-area`
-`prefect deployment run bq-table/sf-bay-area`
+- `prefect deployment run web-to-gcs-flow/sf-bay-area`
+- `prefect deployment run gcs-to-bq-flow/sf-bay-area`
+- `prefect deployment run bq-table/sf-bay-area`
 - We can override the parameters to the deployments using the --params. E.g., `--params='{"years": [2021], "months":[3]}'`
 
 #### 4. dbt
